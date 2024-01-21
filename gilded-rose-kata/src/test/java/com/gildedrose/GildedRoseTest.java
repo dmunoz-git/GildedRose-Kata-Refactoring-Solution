@@ -1,107 +1,122 @@
 package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class GildedRoseTest {
+import org.junit.jupiter.api.BeforeEach;
 
-    @Test
-    public void testDecrementQuality() {
-        Item[] items = new Item[] { new Item("item", 0, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(8, items[0].quality, "Normal items quality must decrement by two" );
-    }
-    
-    @Test
-    public void testNegativeQuality() {
-    	Item[] items = new Item[] { new Item("item", 0, 0) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertFalse(items[0].quality < 0, "Any item quality cannot be negative");
-    }
-    
-    @Test
-    public void testBrieCheeseOnDateQuality() {
-    	Item[] items = new Item[] { new Item("Aged brie", 2, 1) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(2, items[0].quality, "Brie cheese must increment by one when the time increases");
-    }
-    
-    @Test
-    public void testBrieCheeseOutdateQuality() {
-    	Item[] items = new Item[] { new Item("Aged brie", 0, 1) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(3, items[0].quality, "Brie cheese must increment by two once is outdated");
-    }
-    
-    @Test
-    public void testMaxItemQuality() {
-    	Item[] items = new Item[] { new Item("Item", 2, 100) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(50, items[0].quality, "Max quality value must be 50");
-    }
-    
-    @Test
-    public void testSulfurasMaxQuality() {
-    	Item[] items = new Item[] { new Item("Sulfuras", 1, 80) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(80, items[0].quality, "Sulfuras quality mustn't be higher than 80");
-    }
-    
-    @Test
-    public void testSulfurasStaticQuality() {
-    	Item[] items = new Item[] { new Item("Sulfuras", 1, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(10, items[0].quality, "Sulfuras quality mustn't decrement");
-    }
-    
-    @Test
-    public void testSulfurasStaticDate() {
-    	Item[] items = new Item[] { new Item("Sulfuras", 1, 10) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(1, items[0].sellIn, "Sulfuras date mustn't decrement");
-    }
-    
-    @Test
-    public void testBackstateOutdateQuality() {
-    	Item[] items = new Item[] { new Item("Backstate", 15, 1) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(2, items[0].quality, "Backstate ticket quality must increment");
-    }
-    
-    @Test
-    public void testBackstateIncrementQualityByTwo() {
-    	Item[] items = new Item[] { new Item("Backstate", 9, 1) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(3, items[0].quality, "Backstate ticket quality must increment by two");
-    }
-    
-    @Test
-    public void testBackstateIncrementQualityByThree() {
-    	Item[] items = new Item[] { new Item("Backstate", 4, 1) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(3, items[0].quality, "Backstate ticket quality must increment by two");
-    }
-    
-    @Test
-    public void testBackstateOutdatedQuality() {
-    	Item[] items = new Item[] { new Item("Backstate", 0, 0) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(0, items[0].quality, "Backstate ticket drop to 0 after the concert");
-    }
+@TestInstance(Lifecycle.PER_CLASS)
+class GildedRoseTest {	
+	private Item[] items;
+	private GildedRose app;
+	
+	@BeforeEach
+	private void initItems() {
+		this.items = new Item[] { 
+				new Item("+5 Dexterity Vest", 10, 20), 
+				new Item("+5 Dexterity Vest", -1, 20),
+				new Item("+5 Dexterity Vest", 10, 0),
+                new Item("Aged Brie", 2, 0), 
+                new Item("Aged Brie", 0, 0), 
+                new Item("Aged Brie", 0, 50),
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80),
+                new Item("Sulfuras, Hand of Ragnaros", -1, 80),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
+                new Item("Backstage passes to a TAFKAL80ETC concert", -1, 49),
+		};
+		
+		this.app = new GildedRose(this.items);
+	}
 
+	@Test
+	public void testDecrementQuality() {
+		int quality = items[0].quality;
+		app.updateQuality();
+		assertEquals(quality - 1, items[0].quality, "Normal items quality must decrement by two");
+	}
+	
+	@Test
+	public void testDecrementQualityOnceIsLapsed() {
+		int quality = items[1].quality;
+		app.updateQuality();
+		assertEquals(quality - 2, items[1].quality, "Normal items quality must decrement by two");
+	}
+
+	@Test
+	public void testNegativeQuality() {
+		app.updateQuality();
+		assertFalse(items[2].quality < 0, "Any item quality cannot be negative");
+	}
+
+	@Test
+	public void testAgedBrieOnDateQuality() {
+		int quality = items[3].quality;
+		app.updateQuality();
+		assertEquals(quality + 1, items[3].quality, "Aged Brie cheese must increment by one when is updated");
+	}
+
+	@Test
+	public void testAgedBrieOutdatedQuality() {
+		int quality = items[4].quality;
+		app.updateQuality();
+		assertEquals(quality + 2,items[4].quality, "Aged Brie cheese must increment by two once is outdated");
+	}
+
+	@Test
+	public void testMaxItemQuality() {
+		app.updateQuality();
+		assertEquals(50, items[5].quality, "Max quality value must be 50");
+	}
+
+	@Test
+	public void testSulfurasMaxQuality() {
+		app.updateQuality();
+		assertEquals(80, items[6].quality, "Sulfuras quality mustn't be higher than 80");
+	}
+
+	@Test
+	public void testSulfurasStaticQuality() {
+		app.updateQuality();
+		assertEquals(80, items[6].quality, "Sulfuras quality mustn't decrement");
+	}
+
+	@Test
+	public void testSulfurasStaticDate() {
+		app.updateQuality();
+		assertEquals(-1, items[7].sellIn, "Sulfuras date mustn't decrement");
+	}
+
+	@Test
+	public void testBackstateOutdateQuality() {
+		int quality = items[8].quality;
+		app.updateQuality();
+		assertEquals(quality + 1, items[8].quality, "Backstage ticket quality must increment");
+	}
+
+	@Test
+	public void testBackstateIncrementQualityByTwo() {
+		int quality = items[9].quality;
+		app.updateQuality();
+		assertEquals(quality + 2, items[9].quality, "Backstage ticket quality must increment by two when there are 5 days or less");
+	}
+
+	@Test
+	public void testBackstateIncrementQualityByThree() {
+		int quality = items[10].quality;
+		app.updateQuality();
+		assertEquals(quality + 3, items[9].quality, "Backstage ticket quality must increment by two when there are 5 days or less");
+	}
+
+	@Test
+	public void testBackstateOutdatedQuality() {
+		app.updateQuality();
+		assertEquals(0, items[10].quality, "Backstage ticket drop to 0 after the concert");
+	}
 
 }
