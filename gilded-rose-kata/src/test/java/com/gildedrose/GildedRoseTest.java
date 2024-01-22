@@ -64,14 +64,14 @@ class GildedRoseTest {
 	public void testAgedBrieOnDateQuality() {
 		int quality = items[3].quality;
 		app.updateQuality();
-		assertEquals(quality + 1, items[3].quality, "Aged Brie cheese must increment by one when is updated");
+		assertEquals(quality + 1, items[3].quality, "Aged Brie cheese must increment by one");
 	}
 
 	@Test
 	public void testAgedBrieOutdatedQuality() {
 		int quality = items[4].quality;
 		app.updateQuality();
-		assertEquals(quality + 2,items[4].quality, "Aged Brie cheese must increment by two once is outdated");
+		assertEquals(quality + 2,items[4].quality, "Aged Brie cheese must increment by two once is lapsed");
 	}
 
 	@Test
