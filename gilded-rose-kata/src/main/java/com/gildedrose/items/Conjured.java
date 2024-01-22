@@ -14,7 +14,6 @@ public class Conjured extends Standard implements Item {
 			super.quality -= 1;
 		if (super.quality > 0)
 			super.quality -= 1;
-
 	}
 
 }

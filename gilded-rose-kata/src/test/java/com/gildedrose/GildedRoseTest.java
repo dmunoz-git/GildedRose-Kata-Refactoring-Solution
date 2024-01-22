@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 
 import com.gildedrose.items.Item;
 import com.gildedrose.items.ItemFactory;
@@ -23,29 +22,28 @@ class GildedRoseTest {
 	private final int MAX_SULFURAS_QUANTITY = 80;
 
 	private ItemFactory factory = new ItemFactory();
-	
+
 	private List<Item> items;
 	private GildedRose app;
 
 	@BeforeEach
 	private void initItems() {
-		this.items = new ArrayList<Item>(
-				List.of(factory.createItem(ItemType.STANDARD, "+5 Dexterity Vest", 10, 20),
-						factory.createItem(ItemType.STANDARD, "+5 Dexterity Vest", -1, 20),
-						factory.createItem(ItemType.STANDARD, "+5 Dexterity Vest", 10, 0),
-						factory.createItem(ItemType.AGED_BRIE, "Aged Brie", 2, 0),
-						factory.createItem(ItemType.AGED_BRIE, "Aged Brie", 0, 0),
-						factory.createItem(ItemType.AGED_BRIE, "Aged Brie", 0, 50),
-						factory.createItem(ItemType.SULFURAS, "Sulfuras, Hand of Ragnaros", 0, 80),
-						factory.createItem(ItemType.SULFURAS, "Sulfuras, Hand of Ragnaros", -1, 80),
-						factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 15, 20),
-						factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 10, 40),
-						factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 5, 40),
-						factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", -1, 40),
-						factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 5, 49),
-						factory.createItem(ItemType.CONJURED, "Conjured Mana Cake", 5, 40)
+		this.items = new ArrayList<Item>(List.of(factory.createItem(ItemType.STANDARD, "+5 Dexterity Vest", 10, 20),
+				factory.createItem(ItemType.STANDARD, "+5 Dexterity Vest", -1, 20),
+				factory.createItem(ItemType.STANDARD, "+5 Dexterity Vest", 10, 0),
+				factory.createItem(ItemType.AGED_BRIE, "Aged Brie", 2, 0),
+				factory.createItem(ItemType.AGED_BRIE, "Aged Brie", 0, 0),
+				factory.createItem(ItemType.AGED_BRIE, "Aged Brie", 0, 50),
+				factory.createItem(ItemType.SULFURAS, "Sulfuras, Hand of Ragnaros", 0, 80),
+				factory.createItem(ItemType.SULFURAS, "Sulfuras, Hand of Ragnaros", -1, 80),
+				factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 15, 20),
+				factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 10, 40),
+				factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 5, 40),
+				factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", -1, 40),
+				factory.createItem(ItemType.BACKSTAGE_PASSES, "Backstage passes to a TAFKAL80ETC concert", 5, 49),
+				factory.createItem(ItemType.CONJURED, "Conjured Mana Cake", 5, 40)
 
-				)
+		)
 
 		);
 
@@ -63,7 +61,8 @@ class GildedRoseTest {
 	public void testPassedItemUpdate() {
 		int quality = this.items.get(1).getQuality();
 		app.updateQuality();
-		assertEquals(quality - 2, this.items.get(1).getQuality(), "Non special items must degrades twice as fast once the sell by date has passed");
+		assertEquals(quality - 2, this.items.get(1).getQuality(),
+				"Non special items must degrades twice as fast once the sell by date has passed");
 	}
 
 	@Test
@@ -76,13 +75,15 @@ class GildedRoseTest {
 	public void testAgedBrieOnDateQuality() {
 		int quality = this.items.get(3).getQuality();
 		app.updateQuality();
-		assertEquals(quality + 1, this.items.get(3).getQuality(), "Aged Brie must increases in Quality the older it gets");
+		assertEquals(quality + 1, this.items.get(3).getQuality(),
+				"Aged Brie must increases in Quality the older it gets");
 	}
 
 	@Test
 	public void testMaxItemQuality() {
 		app.updateQuality();
-		assertEquals(MAX_ITEM_QUATITY, this.items.get(5).getQuality(), "The Quality of an item must never be more than 50");
+		assertEquals(MAX_ITEM_QUATITY, this.items.get(5).getQuality(),
+				"The Quality of an item must never be more than 50");
 	}
 
 	@Test
@@ -100,7 +101,7 @@ class GildedRoseTest {
 	@Test
 	public void testSulfurasStaticDate() {
 		app.updateQuality();
-		assertEquals(-1, this.items.get(7).getQuality(), "Sulfuras date mustn't decrement");
+		assertEquals(-1, this.items.get(7).getSellIn(), "Sulfuras date mustn't decrement");
 	}
 
 	@Test
@@ -143,8 +144,7 @@ class GildedRoseTest {
 	void testConjuredDecrementQuality() {
 		int quality = this.items.get(13).getQuality();
 		app.updateQuality();
-		assertEquals(quality - 2, this.items.get(13).getQuality(),
-				"Conjured must decrement twince as fast");
+		assertEquals(quality - 2, this.items.get(13).getQuality(), "Conjured must decrement twince as fast");
 
 	}
 

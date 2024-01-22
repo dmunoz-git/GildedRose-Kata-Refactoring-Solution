@@ -13,6 +13,7 @@ public class Standard implements Item {
 		this.name = name;
 		this.sellIn = sellIn;
 		this.quality = quality;
+		this.maxQuality = maxQuality;
 	}
 	
 	public int getSellIn() {
