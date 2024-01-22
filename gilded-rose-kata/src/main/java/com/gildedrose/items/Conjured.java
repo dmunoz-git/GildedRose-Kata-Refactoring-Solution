@@ -1,9 +1,10 @@
 package com.gildedrose.items;
 
 public class Conjured extends Standard implements Item {
+	private static final int MAX_VALUE = 50;
 
-	public Conjured(String name, int sellIn, int quality, int maxQuality) {
-		super(name, sellIn, quality, maxQuality);
+	public Conjured(String name, int sellIn, int quality) {
+		super(name, sellIn, quality, MAX_VALUE);
 		// TODO Auto-generated constructor stub
 	}
 

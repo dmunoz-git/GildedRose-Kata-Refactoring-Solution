@@ -7,16 +7,16 @@ public class ItemFactory {
 			return new Standard(name, sellIn, quality, 50);
 			
 		case AGED_BRIE:
-			return new AgedBrie(name, sellIn, quality, 50);
+			return new AgedBrie(name, sellIn, quality);
 			
 		case BACKSTAGE_PASSES:
-			return new BackstagePasses(name, sellIn, quality, 50);
+			return new BackstagePasses(name, sellIn, quality);
 			
 		case CONJURED:
-			return new Conjured(name, sellIn, quality, 50);
+			return new Conjured(name, sellIn, quality);
 		
 		case SULFURAS:
-			return (Item) new Sulfuras(name, sellIn, quality, 80);
+			return (Item) new Sulfuras(name, sellIn, quality);
 			
 		default:
 			return new Standard(name, sellIn, quality, 50);

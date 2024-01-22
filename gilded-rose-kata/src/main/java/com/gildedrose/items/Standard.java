@@ -4,7 +4,7 @@ public class Standard implements Item {
 	protected String name;
 	protected int sellIn;
 	protected int quality;
-	protected int maxQuality;
+	protected int maxQuality = 50;
 	
 	public Standard(String name, int sellIn, int quality, int maxQuality) {
 		if (quality < 0 || quality > maxQuality)
