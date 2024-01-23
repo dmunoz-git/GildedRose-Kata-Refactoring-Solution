@@ -12,9 +12,9 @@ public class BackstagePasses extends Standard implements Item {
 		super.sellIn -= 1;
 		if (sellIn <= 0)
 			super.quality = 0;
-		else if (quality < super.maxQuality) {
+		else if (quality < MAX_VALUE) {
 			super.quality += 1;
-			if (quality < super.maxQuality) {
+			if (quality < MAX_VALUE) {
 				if (sellIn < 6)
 					super.quality += 2;
 				else if (sellIn < 11)

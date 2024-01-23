@@ -10,7 +10,7 @@ public class AgedBrie extends Standard implements Item{
 	@Override
 	public void updateQuality() {
 		super.sellIn-=1;
-		if(super.quality < super.maxQuality)
+		if(super.quality < MAX_VALUE)
 			super.quality+=1;
 		
 	}
