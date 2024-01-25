@@ -1,6 +1,6 @@
 package com.gildedrose.items;
 
-public class Sulfuras extends Standard implements Item {
+public class Sulfuras extends Item {
 	private static final int MAX_VALUE = 80;
 	
 	public Sulfuras(String name, int sellIn, int quality) {

@@ -1,6 +1,6 @@
 package com.gildedrose.items;
 
-public class Conjured extends Standard implements Item {
+public class Conjured extends Item {
 	private static final int MAX_VALUE = 50;
 
 	public Conjured(String name, int sellIn, int quality) {

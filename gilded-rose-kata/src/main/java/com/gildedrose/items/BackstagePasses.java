@@ -1,6 +1,6 @@
 package com.gildedrose.items;
 
-public class BackstagePasses extends Standard implements Item {
+public class BackstagePasses extends Item {
 	private static final int MAX_VALUE = 50;
 	
 	public BackstagePasses(String name, int sellIn, int quality) {
